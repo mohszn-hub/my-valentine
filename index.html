@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Will You Be My Valentine? 🌷</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Tulip Petals */
+    .petal {
+      position: fixed;
+      top: -50px;
+      width: 18px;
+      height: 28px;
+      background: rgba(255, 120, 150, 0.8);
+      border-radius: 50% 50% 50% 50%;
+      animation: fall linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      max-width: 360px;
+      z-index: 2;
+    }
+
+    h1 {
+      color: #ff4d6d;
+    }
+
+    p {
+      font-size: 18px;
+      margin: 20px 0;
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #yesBtn {
+      background: #ff4d6d;
+      color: white;
+      margin-right: 10px;
+    }
+
+    #yesBtn:hover {
+      transform: scale(1.1);
+    }
+
+    #noBtn {
+      background: #ccc;
+      position: absolute;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* Slideshow */
+    .slideshow {
+      width: 100%;
+      height: 260px;
+      border-radius: 15px;
+      overflow: hidden;
+      margin-bottom: 15px;
+      position: relative;
+    }
+
+    .slideshow img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+    }
+
+    .slideshow img.active {
+      opacity: 1;
+    }
+
+    iframe {
+      border-radius: 12px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card" id="questionCard">
+    <h1>Hey My Love 🌷</h1>
+    <p>Will you be my Valentine?</p>
+    <button id="yesBtn">Yes 💖</button>
+    <button id="noBtn">No 🙈</button>
+  </div>
+
+  <div class="card hidden" id="loveCard">
+    <h1>She Said YES 💘</h1>
+
+    <div class="slideshow">
+      <img src="photo1.jpg" class="active">
+      <img src="photo2.jpg">
+      <img src="photo3.jpg">
+      <img src="photo4.jpg">
+    </div>
+
+    <p>
+      I met a girl… and she changed everything 🌷  
+      <br><br>
+      Happy Valentine’s Day, my love.
+    </p>
+
+    <div id="music"></div>
+  </div>
+
+  <script>
+    /* Tulip petals generator */
+    function createPetal() {
+      const petal = document.createElement("div");
+      petal.classList.add("petal");
+      petal.style.left = Math.random() * window.innerWidth + "px";
+      petal.style.animationDuration = (5 + Math.random() * 5) + "s";
+      document.body.appendChild(petal);
+
+      setTimeout(() => petal.remove(), 10000);
+    }
+
+    setInterval(createPetal, 300);
+
+    /* Buttons */
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const questionCard = document.getElementById("questionCard");
+    const loveCard = document.getElementById("loveCard");
+    const musicDiv = document.getElementById("music");
+
+    noBtn.addEventListener("mouseover", () => {
+      noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+      noBtn.style.top = Math.random() * (window.innerHeight - 50) + "px";
+    });
+
+    yesBtn.addEventListener("click", () => {
+      questionCard.classList.add("hidden");
+      loveCard.classList.remove("hidden");
+
+      musicDiv.innerHTML = `
+  <iframe 
+    style="border-radius:12px"
+    src="https://open.spotify.com/embed/track/3o6bgAvYhKQi8bO75Oay6P?autoplay=1"
+    width="100%" 
+    height="352" 
+    frameborder="0" 
+    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+    loading="lazy">
+  </iframe>
+`;
+    });
+
+    /* Slideshow logic */
+    let slideIndex = 0;
+    const slides = document.querySelectorAll(".slideshow img");
+
+    setInterval(() => {
+      slides[slideIndex].classList.remove("active");
+      slideIndex = (slideIndex + 1) % slides.length;
+      slides[slideIndex].classList.add("active");
+    }, 3000);
+  </script>
+
+</body>
+</html>
